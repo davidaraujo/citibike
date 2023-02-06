@@ -1,4 +1,4 @@
-export region=nyc
+export region=nyc_dedicated
 
 ### Demo
 # Stations: stations producer, data quality KStreams, route stations by status KStreams, stations availability consumers
@@ -8,18 +8,18 @@ export region=nyc
 # StationStatusProducer
 java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar io.confluent.demo.bicyclesharing.producer.StationStatusProducer bicyclesharing.$region.properties &
 # StationInformationProducer
-java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.producer.StationInformationProducer bicyclesharing.$region.properties &
+#java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.producer.StationInformationProducer bicyclesharing.$region.properties &
 # SystemRegionsProducer
-java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.producer.SystemRegionsProducer bicyclesharing.$region.properties &
+#java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.producer.SystemRegionsProducer bicyclesharing.$region.properties &
 # RegionRouting
-java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.streamprocessing.RegionRouting bicyclesharing.$region.properties &
+#java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.streamprocessing.RegionRouting bicyclesharing.$region.properties &
 
 ## ------------------------- KStreams for stations
-# Run data quality rules
+# Run data quality rules validation
 java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar io.confluent.demo.bicyclesharing.streamprocessing.DataQualityRules bicyclesharing.$region.properties &
 
 # Route stations to different topics based on status
-java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar io.confluent.demo.bicyclesharing.streamprocessing.StationStatusProducer bicyclesharing.$region.properties &
+java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar io.confluent.demo.bicyclesharing.streamprocessing.BranchStationsByStatus bicyclesharing.$region.properties &
 
 ## ------------------------- Stations consumer
 # GenericConsumer
@@ -34,7 +34,3 @@ java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar io.c
 ## ------------------------- Bikes consumer
 # GenericConsumer
 java -cp ../bin/demo-bicycle-sharing-1.0-SNAPSHOT-jar-with-dependencies.jar  io.confluent.demo.bicyclesharing.consumer.GenericConsumer bicyclesharing.$region.properties trips "BikesMapGroup" "BikesMap.1" &
-
-
-
-

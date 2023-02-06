@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Trip",
+  "type": "object",
+  "additionalProperties": false,
+  "description": "Citi Bike Trip Information",
+
+  "properties": {
+    "ride_id": {
+      "type": "string",
+      "description": "Ride ID"
+    },
+    "rideable_type": {
+      "type": "string",
+      "description": "Rideable type"
+    },
+    "started_at": {
+      "type": "string",
+      "description": "Started at"
+    },
+    "ended_at": {
+      "type": "string",
+      "description": "Ended at"
+    },
+    "start_station_name": {
+      "type": "string",
+      "description": "Start station name"
+    },
+    "start_station_id": {
+      "type": "string",
+      "description": "Start station ID"
+    },
+    "end_station_name": {
+      "type": "string",
+      "description": "End station name"
+    },
+    "end_station_id": {
+      "type": "string",
+      "description": "End station ID"
+    },
+    "start_lat": {
+      "type": "string",
+      "description": "Start latitude"
+    },
+    "start_lng": {
+      "type": "string",
+      "description": "Start longitude"
+    },
+    "end_lat": {
+      "type": "string",
+      "description": "End latitude"
+    },
+    "end_lng": {
+      "type": "string",
+      "description": "End Longitude"
+    },
+    "member_casual": {
+      "type": "string",
+      "description": "Member or casual ride"
+    }
+  },
+  "required": [
+    "ride_id",
+    "rideable_type",
+    "started_at",
+    "ended_at",
+    "start_station_name",
+    "start_station_id",
+    "end_station_name",
+    "end_station_id",
+    "start_lat",
+    "start_lng",
+    "end_lat",
+    "end_lng",
+    "member_casual"
+  ]
+}

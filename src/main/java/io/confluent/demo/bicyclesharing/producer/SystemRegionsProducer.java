@@ -67,7 +67,7 @@ public class SystemRegionsProducer {
             }
             logger.info("Finished loading region information to topic " + systemRegionsTopic);
         } catch (Exception e) {
-            logger.error("Error in runProducer method: ", e);
+            logger.error("Error in SystemRegionsProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             for (StackTraceElement stackTrace : stackTraceElements) {
                 logger.error(stackTrace.getClassName() + "  " + stackTrace.getMethodName() + " " + stackTrace.getLineNumber());
@@ -87,7 +87,7 @@ public class SystemRegionsProducer {
                 SystemRegionsProducer producer = new SystemRegionsProducer(args[0]);
                 producer.runProducer();
             } catch (Exception e) {
-                logger.error("Error in main method: " + e.getMessage());
+                logger.error("Error in SystemRegionsProducer.main method: " + e.getMessage());
             }
         }
     }

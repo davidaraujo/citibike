@@ -68,7 +68,7 @@ public class StationStatusProducer {
                     Thread.sleep(100000);
                 }
                 catch (Exception e) {
-                    logger.error("Error in runProducer loop: ", e);
+                    logger.error("Error in StationStatusProducer.runProducer loop: ", e);
                     StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
                     for (StackTraceElement stackTrace : stackTraceElements) {
                         logger.error(stackTrace.getClassName() + "  " + stackTrace.getMethodName() + " " + stackTrace.getLineNumber());
@@ -78,7 +78,7 @@ public class StationStatusProducer {
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in runProducer method: ", e);
+            logger.error("Error in StationStatusProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             for (StackTraceElement stackTrace : stackTraceElements) {
                 logger.error(stackTrace.getClassName() + "  " + stackTrace.getMethodName() + " " + stackTrace.getLineNumber());
@@ -98,7 +98,7 @@ public class StationStatusProducer {
                 StationStatusProducer producer = new StationStatusProducer(args[0]);
                 producer.runProducer();
             } catch (Exception e) {
-                logger.error("Error in main method: " + e.getMessage());
+                logger.error("Error in StationStatusProducer.main method: " + e.getMessage());
             }
         }
     }

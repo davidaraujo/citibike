@@ -6,10 +6,7 @@ import io.confluent.demo.bicyclesharing.pojo.original.Bike;
 import io.confluent.demo.bicyclesharing.pojo.original.Region;
 import io.confluent.demo.bicyclesharing.pojo.original.Station;
 import io.confluent.demo.bicyclesharing.pojo.original.Station__1;
-import io.confluent.demo.bicyclesharing.utils.ClientsUtils;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.log4j.Logger;
-import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -31,7 +28,7 @@ public class Gtfs {
             fillStationInformation();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs constructor: " + e.getMessage());
+            logger.error("Error in Gtfs.constructor: " + e.getMessage());
         }
     }
 
@@ -55,11 +52,11 @@ public class Gtfs {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs fillStationInformation: " + e.getMessage());
+            logger.error("Error in Gtfs.fillStationInformation: " + e.getMessage());
         }
     }
 
-    public List     getStationStatusList() {
+    public List getStationStatusList() {
         List stationStatusList = new ArrayList();
         try {
             // Fetch stations status from the gtfs API directly into a StationStatus pojo
@@ -118,7 +115,7 @@ public class Gtfs {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs getStationStatusList: " + e.getMessage());
+            logger.error("Error in Gtfs.getStationStatusList: " + e.getMessage());
         }
         return stationStatusList;
     }
@@ -180,7 +177,7 @@ public class Gtfs {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs getStationStatusList: " + e.getMessage());
+            logger.error("Error in Gtfs.stationInformationList: " + e.getMessage());
         }
         return stationInformationList;
     }
@@ -221,7 +218,7 @@ public class Gtfs {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs getStationStatusList: " + e.getMessage());
+            logger.error("Error in Gtfs.getSystemRegionsList: " + e.getMessage());
         }
         return regionsList;
     }
@@ -278,7 +275,7 @@ public class Gtfs {
         }
         catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in Gtfs getBikeStatusList: " + e.getMessage());
+            logger.error("Error in Gtfs.getBikeStatusList: " + e.getMessage());
         }
         return bikesList;
     }

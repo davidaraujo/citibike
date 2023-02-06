@@ -72,7 +72,7 @@ public class StationInformationProducer {
             }
             logger.info("Finished loading station information.");
         } catch (Exception e) {
-            logger.error("Error in runProducer method: ", e);
+            logger.error("Error in StationInformationProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             for (StackTraceElement stackTrace : stackTraceElements) {
                 logger.error(stackTrace.getClassName() + "  " + stackTrace.getMethodName() + " " + stackTrace.getLineNumber());

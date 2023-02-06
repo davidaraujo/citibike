@@ -28,7 +28,7 @@ public class BikeStatusProducer {
             topic = props.getProperty("bike.status.topic");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error in constructor: " + e.getMessage());
+            logger.error("Error in BikeStatusProducer.constructor: " + e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class BikeStatusProducer {
                 for (int i = 0; i < numStations; i++) {
                     FreeBikeStatusSingle bike = bikesList.get(i);
 
-                    // insert an userid between 1 and 10 on the record
+                    // insert an mock userid between 1 and 10 on the record
                     int randomBetweenOneTo10 = ThreadLocalRandom.current() .nextInt(1, 10 + 1);
                     bike.setAdditionalProperty("userid", "User_" +  randomBetweenOneTo10);
                     bike.setVersion("User_" +  randomBetweenOneTo10);
@@ -56,7 +56,7 @@ public class BikeStatusProducer {
                     // Create a producer
                     Producer producer = new KafkaProducer<>(props);
 
-                    // Create a producer record (key = stationId)
+                    // Create a producer record (key = bikeId)
                     ProducerRecord record = new ProducerRecord<>(topic, bike.getBike().getBikeId(), bike);
 
                     // Send the record
@@ -71,7 +71,7 @@ public class BikeStatusProducer {
                 }
             }
         } catch (Exception e) {
-            logger.error("Error in runProducer method: ", e);
+            logger.error("Error in BikeStatusProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
             for (StackTraceElement stackTrace : stackTraceElements) {
                 logger.error(stackTrace.getClassName() + "  " + stackTrace.getMethodName() + " " + stackTrace.getLineNumber());
@@ -91,7 +91,7 @@ public class BikeStatusProducer {
                 BikeStatusProducer producer = new BikeStatusProducer(args[0]);
                 producer.runProducer();
             } catch (Exception e) {
-                logger.error("Error in main method: " + e.getMessage());
+                logger.error("Error in BikeStatusProducer.main method: " + e.getMessage());
             }
         }
     }

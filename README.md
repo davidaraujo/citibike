@@ -15,19 +15,28 @@ The demo uses 2 data feeds from a bike sharing system, **stations** and **bikes*
 ```
 {"is_disabled":0,"lon":-121.94418833333333,"type":"electric_bike","name":"057b404a7646a98aba39312342eea5b7","rental_uris":{"ios":"https://sfo.lft.to/lastmile_qr_scan","android":"https://sfo.lft.to/lastmile_qr_scan"},"bike_id":"057b404a7646a98aba39312342eea5b7","lat":37.327099,"is_reserved":0}
 ```
-
 ## Compile and create jar
 ```
 mvn assembly:assembly -DdescriptorId=jar-with-dependencies -DskipGenPOJO
 ```
-
 ## Before you start
 1. Create a topic with name `stations.raw.topic` and add the [schema](src/schemas/station_information_single.json).
 2. Run the [script](src/main/scripts/load-station-region-info.sh) to populate the topic `stations.info`.
-
-## Start and stop the demo
+## Start the demo
 1. Update the properties [file](src/main/resources/bicyclesharing.nyc.properties) with your Kafka cluster and Schema Registry endpoint and keys.
-2. Update the location to your properties file and jar on the start-demo.sh [file](src/main/scripts/start-demo.sh)
-3. Run `./start-demo.sh` to start all producers and consumers of the demo.
-4. Run `./stop-demo.sh` to stop all producers and consumers of the demo.
+2. Update the location to your properties file and jar on the start-demo.sh [file](src/main/scripts/start-demo.sh).
+3. [`./start-demo.sh`](src/main/scripts/start-demo.sh).
+4. Create a KSQL app in your cluster and run the [queries](src/main/resources/ksqlDB-queries-stations.sql).
+5. (Optional) create a sink connector of your choice to read from the topic `stations.raw`.
 
+## Run consumer with stations colors
+[`./launch-consumer.sh`](src/main/scripts/launch-consumer.sh) "NameForConsumer" 
+
+![](images/consumer-colors.png)
+
+## Stop the demo
+[`./stop-demo.sh`](src/main/scripts/stop-demo.sh) 
+
+## Lineage 
+Stations lineage view:
+![](images/stations-lineage.png)

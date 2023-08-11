@@ -25,7 +25,8 @@ public class StationStatusProducer {
             props.put("value.serializer", "io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer");
             props.setProperty("auto.register.schemas", "false");
             props.setProperty("use.latest.version", "true");
-            topic = props.getProperty("station.status.topic");
+            // TODO test create topic and schema with code
+            topic = props.getProperty("stations.raw.topic");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Error in constructor: " + e.getMessage());

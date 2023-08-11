@@ -1,1 +1,1 @@
-The official GBFS JSON Schemas from can be found [here](https://github.com/MobilityData/gbfs-json-schema). I changed the original schemas to remove the unnecessary stations array and replace it with just one station.
+The official GBFS JSON Schemas from can be found [here](https://github.com/MobilityData/gbfs-json-schema). I changed the original schemas to remove the unnecessary stations array and replace it with just one station. Schemas to register in SR are suffixed with _single.

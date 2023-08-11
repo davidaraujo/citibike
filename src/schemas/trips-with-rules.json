@@ -1,0 +1,23 @@
+{
+  "schemaType": "JSON",
+  "schema": "{\"type\":\"object\",\"properties\":{\"BIKES_VERSION\":{\"connect.index\":5,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"BIKES_TTL\":{\"connect.index\":4,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"integer\",\"connect.type\":\"int64\"}]},\"RIDERS_GENDER\":{\"connect.index\":2,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"BIKES_LAST_UPDATED\":{\"connect.index\":3,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"integer\",\"connect.type\":\"int64\"}]},\"RIDERS_REGISTERTIME\":{\"connect.index\":0,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"integer\",\"connect.type\":\"int64\"}]},\"RIDERS_REGIONID\":{\"connect.index\":1,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"BIKES_BIKE\":{\"connect.index\":6,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"object\",\"properties\":{\"AVAILABLE_UNTIL\":{\"connect.index\":14,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"CURRENT_FUEL_PERCENT\":{\"connect.index\":0,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"number\",\"connect.type\":\"float64\"}]},\"IS_DISABLED\":{\"connect.index\":1,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"boolean\"}]},\"LON\":{\"connect.index\":3,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"number\",\"connect.type\":\"float64\"}]},\"LAST_REPORTED\":{\"connect.index\":9,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"number\",\"connect.type\":\"float64\"}]},\"PRICING_PLAN_ID\":{\"connect.index\":5,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"STATION_ID\":{\"connect.index\":2,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"IS_RESERVED\":{\"connect.index\":7,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"boolean\"}]},\"RENTAL_URIS\":{\"connect.index\":11,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"object\",\"properties\":{\"WEB\":{\"connect.index\":0,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"ANDROID\":{\"connect.index\":1,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"IOS\":{\"connect.index\":2,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]}}}]},\"VEHICLE_TYPE_ID\":{\"connect.index\":8,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"BIKE_ID\":{\"connect.index\":12,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"VEHICLE_EQUIPMENT\":{\"connect.index\":6,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"array\",\"items\":{\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]}}]},\"HOME_STATION_ID\":{\"connect.index\":4,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"string\"}]},\"CURRENT_RANGE_METERS\":{\"connect.index\":10,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"number\",\"connect.type\":\"float64\"}]},\"LAT\":{\"connect.index\":13,\"oneOf\":[{\"type\":\"null\"},{\"type\":\"number\",\"connect.type\":\"float64\"}]}}}]}}}",
+  "metadata": {
+    "properties": {
+      "owner": "David Araujo",
+      "email": "daraujo@confluent.io",
+      "domain": "Bikes"
+    }
+  },
+  "ruleSet": {
+    "domainRules": [
+      {
+        "name": "checkRegion",
+        "kind": "CONDITION",
+        "mode": "WRITE",
+        "type": "CEL",
+        "expr": "message.RIDERS_REGIONID.startsWith(\"RRegion_\")",
+        "onFailure": "ERROR"
+      }
+    ]
+  }
+}

@@ -28,19 +28,16 @@ public class BranchStationsByStatus {
         try {
             streamsConfiguration = ClientsUtils.loadConfig(propertiesFile);
             streamsConfiguration.put("default.key.serde", Serdes.String().getClass().getName());
-            streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, "branch-by-station-status");
+            streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, streamsConfiguration.getProperty("stations.branch.app"));
             streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
             streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, KafkaJsonSchemaSerde.class);
             streamsConfiguration.put("json.value.type", "io.confluent.demo.bicyclesharing.pojo.StationStatusSingle");
-            stationStatusTopicName = streamsConfiguration.getProperty("station.status.clean.topic");
+            stationStatusTopicName = streamsConfiguration.getProperty("stations.raw.topic");
             streamsConfiguration.put(AbstractKafkaSchemaSerDeConfig.AUTO_REGISTER_SCHEMAS, true);
             // consumer from the beginning of the topic or last offset
             streamsConfiguration.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
             // Use a temporary directory for storing state, which will be automatically removed after the test.
             streamsConfiguration.put(StreamsConfig.STATE_DIR_CONFIG, TestUtils.tempDirectory().getAbsolutePath());
-
-            System.out.println("reading from topic " + stationStatusTopicName);
-
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Error in constructor: " + e.getMessage());
@@ -58,20 +55,26 @@ public class BranchStationsByStatus {
            // AtomicReference<String> status;
             stationStatus.to((eventId, event, record) ->
                     {
+                      /* OLD USING STATION STATUS PROPERTY THAT STOPPED BEING POPULATED ON THE FEED
                         // get the station status name is lower case
                         String status= ((String) event.getStation().getAdditionalProperties().get("station_status")).toLowerCase();
 
-                        // getData().getStations().get(0).getAdditionalProperties().get("station_status")).toLowerCase());
-                        // getData().getStations().get(0).getAdditionalProperties().get("station_status")).toLowerCase());
                         System.out.println("Status of station " + eventId + " is " + status);
-                        //return ClientsUtils.createTopic(streamsConfiguration, "station.status." + event.getData().getStations().get(0).getAdditionalProperties().get("station_status"));
 
                         // normalize status name of stations that are operating as normal to be always "active" - e.g. in Sao Paulo they use the name "IN_SERVICE"
                         if (status.equals("in_service"))
                             status = "active";
                         return ClientsUtils.createTopic(streamsConfiguration, status);
                     });
+                       */
 
+                        // New routing using the is_renting field
+                        // get the station status name is lower case
+                        boolean is_renting=  event.getStation().getIsRenting();
+
+                        System.out.println("Station " + eventId + " is renting? " + is_renting);
+                        return ClientsUtils.createTopic(streamsConfiguration, is_renting ? streamsConfiguration.getProperty("stations.online.topic"): streamsConfiguration.getProperty("stations.offline.topic"));
+                    });
             return new KafkaStreams(builder.build(), streamsConfiguration);
             /*streams = new KafkaStreams(builder.build(), streamsConfiguration);
 

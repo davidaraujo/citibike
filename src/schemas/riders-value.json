@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "gender": {
+      "connect.index": 3,
+      "type": "string"
+    },
+    "regionid": {
+      "connect.index": 2,
+      "type": "string"
+    },
+    "registertime": {
+      "connect.index": 0,
+      "connect.type": "int64",
+      "type": "integer"
+    },
+    "userid": {
+      "connect.index": 1,
+      "type": "string"
+    }
+  },
+  "title": "ksql.users",
+  "type": "object"
+}

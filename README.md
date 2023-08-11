@@ -23,12 +23,14 @@ The demo uses 2 data feeds from a bike sharing system, **stations** and **bikes*
 
 ### Generate POJOs from schemas
 
-### Compile
+### Compile and create the project jar with all libraries dependencies
 ```
 mvn assembly:assembly -DdescriptorId=jar-with-dependencies -DskipGenPOJO
 ```
 
-### Create jar
+### Before you start
+1. Before starting create a topic with name `stations.raw.topic` and this [schema](src/schemas/station_information_single.json).
+2. Populate the topic for stations information using this [script](src/main/scripts/load-station-region-info.sh).
 
 ## Start and stop the demo
 

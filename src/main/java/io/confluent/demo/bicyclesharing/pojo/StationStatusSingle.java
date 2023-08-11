@@ -24,7 +24,6 @@ import io.confluent.kafka.schemaregistry.annotations.Schema;
     "version",
     "station"
 })
-
 @Schema(value="{\n" +
         "  \"$schema\": \"http://json-schema.org/draft-07/schema\",\n" +
         "  \"$id\": \"https://github.com/NABSA/gbfs/blob/v2.3/gbfs.md#station_statusjson\",\n" +

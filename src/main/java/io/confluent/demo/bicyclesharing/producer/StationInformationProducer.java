@@ -15,7 +15,7 @@ public class StationInformationProducer {
 
     private static final Logger logger = Logger.getLogger(StationInformationProducer.class);
     private static Properties props;
-    private String stationInformationTopic, stationInformationUrl;
+    private String stationInformationTopic;
 
     StationInformationProducer(String propertiesFile) {
         try {
@@ -24,7 +24,9 @@ public class StationInformationProducer {
             props.put("value.serializer", "io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer");
             props.setProperty("auto.register.schemas", "true");
             props.setProperty("use.latest.version", "true");
-            stationInformationTopic = props.getProperty("station.information.topic");
+            stationInformationTopic = props.getProperty("stations.info.topic");
+            // create topic if it does not exist
+            ClientsUtils.createTopic(props, stationInformationTopic);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Error in constructor: " + e.getMessage());
@@ -46,15 +48,16 @@ public class StationInformationProducer {
             List<StationInformationSingle> stationsList = gtfs.getStationInformationList();
             int numStations =  stationsList.size();
 
+            // Set the Kafka client ID as the station
+            props.put(ProducerConfig.CLIENT_ID_CONFIG, "station-info-producer");
+
+            // Create a producer
+            Producer producer = new KafkaProducer<>(props);
+
+
             for (int i = 0; i < numStations; i++) {
 
                 String stationId = stationsList.get(i).getStation().getStationId();
-
-                // Set the Kafka client ID as the station
-                props.put(ProducerConfig.CLIENT_ID_CONFIG, stationId);
-
-                // Create a producer
-                Producer producer = new KafkaProducer<>(props);
 
                 // Create a producer record (key = stationId)
                 ProducerRecord record = new ProducerRecord<>(stationInformationTopic, stationId, stationsList.get(i));
@@ -63,14 +66,18 @@ public class StationInformationProducer {
                 producer.send(record);
                 // log.error("Loop count #" + loopCount + " - record#" + numRecords++ + " of total " + numStations + " for station name " + stationStatusPOJO.getStationName() + ".");
 
-                // Close producer
-                producer.close();
-
                 logger.info("Station information " + stationId
                         + " sending record with KEY=" + record.key()
                         + " and VALUE=" + record.value());
+                System.out.println("Station information " + stationId
+                        + " sending record with KEY=" + record.key()
+                        + " and VALUE=" + record.value());
             }
+            // Close producer
+            producer.close();
+
             logger.info("Finished loading station information.");
+            System.out.println("Finished loading station information.");
         } catch (Exception e) {
             logger.error("Error in StationInformationProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();

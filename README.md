@@ -20,7 +20,7 @@ The demo uses 2 data feeds from a bike sharing system, **stations** and **bikes*
 mvn assembly:assembly -DdescriptorId=jar-with-dependencies -DskipGenPOJO
 ```
 ## Before you start
-1. Create a topic with name `stations.raw.topic` and add the [schema](src/schemas/station_information_single.json).
+1. Create a topic with name `stations.raw.topic` and add the [schema](src/schemas/station_status_single.json).
 2. Run the [script](src/main/scripts/load-station-region-info.sh) to populate the topic `stations.info`.
 ## Start the demo
 1. Update the properties [file](src/main/resources/bicyclesharing.nyc.properties) with your Kafka cluster and Schema Registry endpoint and keys.

@@ -37,6 +37,13 @@ public class BikeStatusProducer {
             // Get stations status from the gtfs API
             Gtfs gtfs = new Gtfs(props);
 
+            // Set the Kafka client ID as the station name
+            //props.put(ProducerConfig.CLIENT_ID_CONFIG, bike.getBike().getBikeId());
+            props.put(ProducerConfig.CLIENT_ID_CONFIG, props.getProperty("bikes.producer.app"));
+
+            // Create a producer
+            Producer producer = new KafkaProducer<>(props);
+
             while (true) {
                 List<FreeBikeStatusSingle> bikesList = gtfs.getBikeStatusList();
                 int numStations = bikesList.size();
@@ -50,11 +57,6 @@ public class BikeStatusProducer {
                     bike.setAdditionalProperty("userid", "User_" +  randomBetweenOneTo10);
                     bike.setVersion("User_" +  randomBetweenOneTo10);
 
-                    // Set the Kafka client ID as the station name
-                    props.put(ProducerConfig.CLIENT_ID_CONFIG, bike.getBike().getBikeId());
-
-                    // Create a producer
-                    Producer producer = new KafkaProducer<>(props);
 
                     // Create a producer record (key = bikeId)
                     ProducerRecord record = new ProducerRecord<>(topic, bike.getBike().getBikeId(), bike);
@@ -62,14 +64,14 @@ public class BikeStatusProducer {
                     // Send the record
                     producer.send(record);
 
-                    // Close producer
-                    producer.close();
-
                     logger.info("Bike " + bike.getBike().getBikeId()
                             + " sending record with KEY=" + record.key()
                             + " and VALUE=" + record.value());
                 }
+                Thread.sleep(100000);
             }
+            // Close producer
+            //producer.close();
         } catch (Exception e) {
             logger.error("Error in BikeStatusProducer.runProducer method: ", e);
             StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
